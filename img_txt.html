@@ -1,0 +1,127 @@
+<head>
+    <style> body { margin: 0; } </style>
+      <script src="http://unpkg.com/force-graph"></script>
+      <!--<script src="../../dist/force-graph.js"></script>-->
+  </head>
+  <body>
+    <form id="form"> 
+      <input type="text" id="my_text" placeholder="Search Id...">
+      <input id="clickMeId" type="button" value="clickme" />
+      <input type="text" id="my_text_part" placeholder="Search Part...">
+      <input id="clickMePart" type="button" value="clickme" />
+    </form>
+    <div id="graph"></div>
+    <script>
+      var img_path = '/js/PATH_img.json'
+      var img_data = null
+      var node_pos = {}
+      var server_data = null
+
+      fetch(img_path).then(res => res.json()).then(data => { 
+        img_data = data 
+        var path = '/js/PATH.json'
+
+
+        fetch(path).then(res => res.json()).then(data => {
+            data['nodes'].forEach((k, i) => {
+            data['nodes'][i]['img'] = i
+            data['nodes'][i]['img_name'] = img_data[data['nodes'][i]['id']]
+            data['nodes'][i]['new_img'] = null
+            node_pos[data['nodes'][i]['id']] =  i
+            });
+            setupGraph(data)
+          });
+      });
+
+      var Graph = null
+      document.getElementById("clickMeId").onclick = function(){
+        var my_text_elem = document.getElementById("my_text");
+        var my_text_value = my_text_elem.value
+        graph_data = Graph.graphData();
+        Graph.centerAt(graph_data['nodes'][node_pos[my_text_value]].x, graph_data['nodes'][node_pos[my_text_value]].y, 1000);
+        Graph.zoom(5, 4000);
+      };
+
+      document.getElementById("clickMePart").onclick = function(){
+        var my_text_elem = document.getElementById("my_text_part");
+        var my_text_value = my_text_elem.value
+        var url = "http://127.0.0.1:5001/thr_view/thr_90_p" + my_text_value
+        window.open(url);
+      };
+
+      function setupGraph(data) {
+            const elem = document.getElementById('graph');
+
+            Graph = ForceGraph()(elem)
+            .graphData(data)
+            .linkWidth(3)
+            .enableNodeDrag(true)
+            .enablePointerInteraction(true)
+            .onNodeClick(node => {
+                // Center/zoom on node
+                Graph.centerAt(node.x, node.y, 1000);
+                Graph.zoom(8, 2000);
+                q = document.URL
+                var url = q + 'p' + node.part
+                window.open(url);
+              })
+            .nodeCanvasObject(({ img, x, y }, ctx) => {
+                const size = 12;
+                Graph.getGraphBbox()
+                screen_cords = Graph.graph2ScreenCoords(x, y)
+                graph_data = Graph.graphData();
+
+                var new_img = graph_data['nodes'][img]['new_img']
+                var img_name = graph_data['nodes'][img]['img_name']
+
+                ctx.font = "1px Arial";
+                if (img_name != '/img/None') {
+                    if (new_img == null) {
+                        new_img = new Image();
+                        graph_data['nodes'][img]['img_loaded'] = false
+                        new_img.onload = function() {
+                          graph_data['nodes'][img]['img_loaded'] = true
+                        };
+                        new_img.src = graph_data['nodes'][img]['img_name']
+                        graph_data['nodes'][img]['new_img'] = new_img
+                        }
+                    if (graph_data['nodes'][img]['img_loaded']) {
+                      ctx.globalAlpha = 1
+                      ctx.drawImage(new_img, x - size / 2, y - size / 2, size, size);
+                     }
+                }
+                else {
+                    ctx.font = "4px Arial";
+                }
+                ctx.fillText(graph_data['nodes'][img]['id'], x - size / 2, y + size / 6); // - size / 8);
+                ctx.fillText("p" + graph_data['nodes'][img]['part'], x - size / 3, y - size / 4);
+
+                ctx.beginPath();
+                ctx.lineWidth = "1";
+                group = graph_data['nodes'][img]['group']
+                const colors_list = ["red","green","blue","grey"]
+                ctx.strokeStyle = colors_list[group-1]
+                shape = graph_data['nodes'][img]['shape']
+                if (shape == "tri") {
+                    ctx.arc(x , y, size/1.5, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.globalAlpha = 0.8
+                    ctx.arc(x , y, size/1.25, 0, 2 * Math.PI);
+                    ctx.stroke();
+                } else if (shape == "rect") {
+                    // ctx.rect(x - size / 2, y - size / 2, size, size);
+                    ctx.globalAlpha = 0.6
+                    ctx.arc(x , y, size/1.5, 0, 2 * Math.PI);
+                    ctx.arc(x , y, size/1.25, 0, 2 * Math.PI);
+                    ctx.stroke();
+                } else {
+                    ctx.globalAlpha = 0.4
+                    ctx.arc(x , y, size/1.5, 0, 2 * Math.PI);
+                    ctx.stroke();
+                }
+                ctx.globalAlpha = 1
+           })
+
+        };
+    </script>
+  </body>
