@@ -1,7 +1,7 @@
 import pandas as pd
 
-df_resnet50 = pd.read_parquet('/Users/daliasmirnov/PycharmProjects/pythonProject/ConvneXt/prediction_df_resnet50.parq')
-df_convnext = pd.read_parquet('/Users/daliasmirnov/PycharmProjects/pythonProject/ConvneXt/prediction_df.convnext.parq')
+df_resnet50 = pd.read_parquet('prediction_df_resnet50.parq')
+df_convnext = pd.read_parquet('prediction_df.convnext.parq')
 
 class_mapping = dict(zip(df_resnet50['class'], df_resnet50['description']))
 df_convnext = df_convnext.sort_values(['img_path', 'probability'], ascending=False)
