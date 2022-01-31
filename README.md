@@ -13,4 +13,5 @@ Based on facebook's last research:
 Now make sure that you have two directories: /img , /js.
 
 ### Step 2: Run App.py  
-### Step 3: Open url in your web browser : http://127.0.0.1:5001/thr_view/top_5_right_convnext_thr_0_p-1
+### Step 3: Open url in your web browser :  
+http://127.0.0.1:5001/thr_view/top_5_right_convnext_thr_0_p-1
