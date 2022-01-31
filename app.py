@@ -6,21 +6,16 @@ app = Flask(__name__)
 def send_js(path):
   return send_from_directory('js', path)
 
-# @app.route("/dag_view/<path:path>")
-# def dag_view(path):
-#   s = open('/Users/user/Projects/DataScienceUtils/david/visualize_data/dag.html').read()
-#   s = s.replace('PATH', path)
-#   return s
 
 @app.route("/tree_view/<path:path>")
 def tree_view(path):
-  s = open('/Users/daliasmirnov/PycharmProjects/imagenet/tree.html').read()
+  s = open('tree.html').read()
   s = s.replace('PATH', path)
   return s
 
 @app.route("/thr_view/<path:path>")
 def view(path):
-  s = open('/Users/daliasmirnov/PycharmProjects/imagenet/img_txt.html').read()
+  s = open('img_txt.html').read()
   s = s.replace('PATH', path)
   return s
 
