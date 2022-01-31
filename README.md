@@ -4,7 +4,7 @@ Based on facebook's last research:
 -  [Article](https://arxiv.org/pdf/2201.03545v1.pdf) 
 - [Git Repo](https://github.com/rwightman/pytorch-image-models) 
 
-## How to make it work?  💫
+# How to make it work?  💫
 
 ### Step 1: Download Images and jsons  
 - Download the compressed directory from [here](https://drive.google.com/file/d/14rMJ5ROnYgopVeEtXZCTzzWxmGSBw5Vd/view?usp=sharing)  
