@@ -7,9 +7,9 @@ Based on facebook's last research:
 ## How to make it work?  
 
 ### Step 1: Download Images and jsons  
-Download the compressed directory from [here](https://drive.google.com/file/d/14rMJ5ROnYgopVeEtXZCTzzWxmGSBw5Vd/view?usp=sharing). 
-Extracrt the 'js.zip' from this repo  
-
+- Download the compressed directory from [here](https://drive.google.com/file/d/14rMJ5ROnYgopVeEtXZCTzzWxmGSBw5Vd/view?usp=sharing)  
+- Extracrt the 'js.zip' from this repo  
+  
 Now make sure that you have two directories: /img , /js.
 
 ### Step 2: Run App.py  
