@@ -18,7 +18,10 @@ def compare_preds(img):
 
 if __name__ == '__main__':
     while True:
-        img_name = input("Please enter image name: ")
-        if img_name == "bye":
-            break
-        compare_preds(img_name + '.JPEG')
+        try:
+            img_name = input("Please enter image name: ")
+            if img_name == "bye":
+                break
+            compare_preds(img_name + '.JPEG')
+        except IndexError:
+            print(f"{img_name+ '.JPEG'} Not Found! Please try again")
